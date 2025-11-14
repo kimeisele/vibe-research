@@ -3,21 +3,52 @@
 # Defines die SDLC-statesmaschine, ihre Zustände, Übergänge
 # und Fehlerbehandlungs-Schleifen.
 # Based auf der Analyse in Teil 1 dieses Berichts.
+#
+# PHASE 3 ENHANCEMENTS (GAD-002):
+# - Added horizontal_audits to states (Decision 4: Continuous Per-Phase Auditing)
+# - Added quality_gates to transitions (Decision 2: Hybrid Blocking/Async)
+# - Implements shift-left security with blocking critical checks
 # =================================================================
-version: 1.0.0
+version: 2.0.0
 kind: SDLCStateMachine
 
 # 1. Definition der Workflow-Zustände (States)
 # Jeder state entspricht einem Kern-Framework.
 states:
  - name: "PLANNING"
-   description: "Projektplanung und Anforderungsanalyse. Besteht aus zwei Phasen."
+   description: "Projektplanung und Anforderungsanalyse. Besteht aus drei Phasen (Research ist optional)."
    responsible_framework: "ProjectManagement"
    output_artifact: "project_manifest.json"
+   horizontal_audits:  # GAD-002 Decision 4: Continuous Per-Phase Auditing
+     - name: "prompt_security_scan"
+       severity: "critical"
+       blocking: true
+       description: "Scan all agent prompts for injection vulnerabilities"
+     - name: "data_privacy_scan"
+       severity: "critical"
+       blocking: true
+       description: "Check for PII leaks in feature specifications"
+     - name: "quality_best_practices"
+       severity: "info"
+       blocking: false
+       description: "Validate planning follows best practices"
    sub_states:
+     - name: "RESEARCH"
+       description: "Optional: Fact-based market, technical, and user research before business planning"
+       responsible_agents:
+         - "MARKET_RESEARCHER"
+         - "TECH_RESEARCHER"
+         - "FACT_VALIDATOR"
+         - "USER_RESEARCHER"
+       output_artifact: "research_brief.json"
+       optional: true
+       state_machine_ref: "01_planning_framework/state_machine/RESEARCH_workflow_design.yaml"
+
      - name: "BUSINESS_VALIDATION"
        description: "Validierung des Geschäftsmodells durch Lean Canvas"
        responsible_agent: "LEAN_CANVAS_VALIDATOR"
+       input_artifact: "research_brief.json"  # Optional input
+       input_artifact_optional: true
        output_artifact: "lean_canvas_summary.json"
 
      - name: "FEATURE_SPECIFICATION"
@@ -31,6 +62,19 @@ states:
    responsible_framework: "CODE_GEN "
    input_artifact: "code_gen_spec.json"
    output_artifact: "artifact_bundle"
+   horizontal_audits:  # GAD-002 Decision 4: Continuous Per-Phase Auditing
+     - name: "code_security_scan"
+       severity: "critical"
+       blocking: true
+       description: "Scan generated code for security vulnerabilities (SQL injection, XSS, etc.)"
+     - name: "license_compliance_scan"
+       severity: "high"
+       blocking: true
+       description: "Validate all dependencies have compatible licenses"
+     - name: "code_complexity_check"
+       severity: "info"
+       blocking: false
+       description: "Check cyclomatic complexity and maintainability"
 
  - name: "TESTING"
    description: "Gesteuert durch das QA-Framework. Führt die Testpyramide aus und erzeugt einen QA-Bericht."
@@ -65,6 +109,22 @@ states:
 
 # 2. Definition der Workflow-Übergänge (Transitions)
 transitions:
+ # Research Phase Transitions (NEW)
+ - name: "T0a_ResearchToBusiness"
+   from_state: "PLANNING.RESEARCH"
+   to_state: "PLANNING.BUSINESS_VALIDATION"
+   trigger: "research_brief.json created AND research_brief.handoff_to_lean_canvas.status == 'READY'"
+   type: "Automated"
+   description: "Research phase completed successfully, proceed to business validation with research insights"
+
+ - name: "T0b_SkipResearchStartBusiness"
+   from_state: "PLANNING"
+   to_state: "PLANNING.BUSINESS_VALIDATION"
+   trigger: "User opts to skip RESEARCH phase OR research not requested"
+   type: "User-Choice"
+   description: "Skip research phase and start directly with business validation"
+
+ # Existing Planning Transitions
  - name: "T0_BusinessToFeatures"
    from_state: "PLANNING.BUSINESS_VALIDATION"
    to_state: "PLANNING.FEATURE_SPECIFICATION"
@@ -76,6 +136,17 @@ transitions:
    to_state: "CODING"
    trigger: "feature_spec.json erstellt mit gültigem code_gen_spec link."
    type: "Automated"
+   quality_gates:  # GAD-002 Decision 2: Hybrid Blocking/Async Quality Gates
+     - agent: "AUDITOR"
+       check: "prompt_security_scan"
+       severity: "critical"
+       blocking: true
+       description: "Block CODING if planning prompts contain injection vulnerabilities"
+     - agent: "AUDITOR"
+       check: "feature_spec_validation"
+       severity: "high"
+       blocking: true
+       description: "Validate feature_spec.json against schema before CODING"
 
  - name: "T2_StartTesting"
    from_state: "CODING"
@@ -94,6 +165,27 @@ transitions:
    to_state: "DEPLOYMENT"
    trigger: "HITL-Ereignis: 'qa_approved_signal' empfangen UND qa_report.status == 'APPROVED'."
    type: "Human-in-the-Loop (HITL)"
+   quality_gates:  # GAD-002 Decision 2: Critical checks before production deployment
+     - agent: "AUDITOR"
+       check: "code_security_scan"
+       severity: "critical"
+       blocking: true
+       description: "MUST pass security scan before production deployment"
+     - agent: "AUDITOR"
+       check: "license_compliance_scan"
+       severity: "critical"
+       blocking: true
+       description: "MUST verify all licenses are compatible before deployment"
+     - agent: "AUDITOR"
+       check: "data_privacy_compliance"
+       severity: "critical"
+       blocking: true
+       description: "MUST verify GDPR/privacy compliance before deployment"
+     - agent: "AUDITOR"
+       check: "performance_benchmarks"
+       severity: "info"
+       blocking: false
+       description: "Optional performance checks (non-blocking)"
 
  - name: "T5_DeploymentSuccess"
    from_state: "DEPLOYMENT"

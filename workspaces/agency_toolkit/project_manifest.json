@@ -1,0 +1,46 @@
+{
+  "apiVersion": "agency.os/v1alpha1",
+  "kind": "Project",
+  "metadata": {
+    "projectId": "agency-toolkit-001",
+    "name": "Agency Toolkit",
+    "description": "Tool für Agenturen zur Projekt-Organisation, Briefing-Erstellung und Social Media Content-Generierung",
+    "owner": "agent@vibe.agency",
+    "createdAt": "2025-11-13T16:23:00Z",
+    "lastUpdatedAt": "2025-11-14T13:27:00Z"
+  },
+  "spec": {
+    "vibe": {
+      "project_type": "internal",
+      "client": "Internal (Vibe Agency)",
+      "region": "Salzburg/Bad Reichenhall/Freilassing",
+      "target_users": "Werbeagenturen"
+    },
+    "genesis": {}
+  },
+  "status": {
+    "projectPhase": "AWAITING_CODE_GENERATION",
+    "lastUpdate": "2025-11-13T17:00:00Z",
+    "message": "Planning completed. Framework test PASSED with learnings - see FRAMEWORK_TEST_REPORT.md"
+  },
+  "artifacts": {
+    "planning": {
+      "lean_canvas": {
+        "path": "workspaces/agency_toolkit/artifacts/planning/lean_canvas_summary.json"
+      },
+      "features": {
+        "path": "workspaces/agency_toolkit/artifacts/planning/feature_spec.json"
+      },
+      "architecture": {
+        "path": "workspaces/agency_toolkit/artifacts/architecture/architecture_blueprint.md"
+      }
+    },
+    "code": {},
+    "test": {
+      "framework_test_report": {
+        "path": "workspaces/agency_toolkit/FRAMEWORK_TEST_REPORT.md"
+      }
+    },
+    "deployment": {}
+  }
+}

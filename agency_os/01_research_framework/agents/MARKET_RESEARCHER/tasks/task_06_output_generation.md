@@ -62,7 +62,7 @@ Verify all quality gates pass:
       "currency": "USD",
       "unit": "per user/month"
     },
-    "market_size": "TAM: $6.8B (Gartner 2024, https://...), SAM: $680M (10% targeting SMB cloud PM), SOM: $13.6M (2% Year 1 market share)",
+    "market_size": "TAM: $12B (bottom-up: 100M knowledge workers × $120/year, source: ILO Global Employment Report), SAM: $1.2B (10% targeting creative agencies), SOM: $24M (2% Year 1 market share)",
     "positioning_opportunities": [
       "Niche focus on creative agencies (underserved segment)",
       "Flat-rate pricing model (pricing innovation vs per-user)"

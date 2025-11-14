@@ -97,8 +97,8 @@ You will execute 6 sequential tasks:
   "fact_validation": {
     "validated_claims": [
       {
-        "claim": "TAM is $6.8B",
-        "source": "https://www.gartner.com/...",
+        "claim": "TAM is $12B (bottom-up: 100M knowledge workers × $120/year)",
+        "source": "Bottom-up calculation using ILO Global Employment Report",
         "verification_status": "VERIFIED",
         "verified_at": "2025-11-14T10:30:00Z"
       }
@@ -108,13 +108,14 @@ You will execute 6 sequential tasks:
         "claim": "The market is growing rapidly",
         "issue": "No timeframe, no growth rate, no source",
         "red_flag_type": "context-collapse",
-        "recommendation": "Specify growth rate with timeframe and cite source (e.g., '15% CAGR 2024-2028 (Gartner)'))"
+        "recommendation": "Specify growth rate with timeframe and cite source (e.g., '15% annual growth based on Google Trends analysis')"
       }
     ],
     "citation_index": [
       {
-        "url": "https://www.gartner.com/...",
-        "cited_in": ["market_size_TAM", "growth_rate"]
+        "url": "https://www.ilo.org/global/research/...",
+        "cited_in": ["market_size_TAM"],
+        "source_type": "government_statistics"
       }
     ],
     "quality_score": "85/100",
@@ -162,8 +163,8 @@ Thresholds:
 {
   "validated_claims": [
     {
-      "claim": "TAM: $6.8B (2024)",
-      "source": "https://www.gartner.com/...",
+      "claim": "TAM: $12B (2024, bottom-up calculation)",
+      "source": "Bottom-up: ILO Global Employment Report (100M knowledge workers) × $120/year typical spend",
       "verification_status": "VERIFIED",
       "verified_at": "2025-11-14T10:30:00Z"
     }

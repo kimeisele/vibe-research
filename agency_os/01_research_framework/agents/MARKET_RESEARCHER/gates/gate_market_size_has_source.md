@@ -10,9 +10,10 @@
 
 This gate passes ONLY if:
 
-1. **TAM has a credible source**
-   - Source URL provided
-   - Source is credible (Gartner, Forrester, Statista, industry reports)
+1. **TAM has a credible source OR calculation method**
+   - Source URL provided OR bottom-up calculation shown
+   - Source is credible (FREE sources preferred: Google Search, government statistics, Crunchbase, ILO reports, etc.)
+   - Optional: Industry analyst reports (Gartner, Forrester) if user has access
    - Timeframe specified (which year?)
 
 2. **SAM calculation is documented**
@@ -59,11 +60,15 @@ def validate_market_size_has_source(market_size):
         if "value" not in tam or tam["value"] is None:
             issues.append("TAM: No value provided")
 
-        # Check TAM has source
-        if "source" not in tam or not tam["source"]:
-            issues.append("TAM: No source provided")
-        elif not tam["source"].startswith(("http://", "https://")):
-            issues.append(f"TAM: Invalid source URL: {tam['source']}")
+        # Check TAM has source OR calculation
+        has_source = "source" in tam and tam["source"]
+        has_calculation = "calculation" in tam and tam["calculation"]
+
+        if not has_source and not has_calculation:
+            issues.append("TAM: No source or calculation method provided")
+        elif has_source and not tam["source"].startswith(("http://", "https://", "Bottom-up:")):
+            # Allow "Bottom-up:" prefix for calculated estimates
+            issues.append(f"TAM: Source should be URL or 'Bottom-up: [calculation]': {tam['source']}")
 
         # Check TAM has timeframe
         if "timeframe" not in tam or not tam["timeframe"]:
@@ -139,31 +144,32 @@ def validate_market_size_has_source(market_size):
 
 ## Example: Pass vs. Fail
 
-### ✅ PASS
+### ✅ PASS (Bottom-up Calculation - FREE)
 ```json
 {
   "market_size": {
     "TAM": {
-      "value": 6800000000,
+      "value": 12000000000,
       "currency": "USD",
       "description": "Global project management software market",
       "timeframe": "2024",
-      "source": "https://www.gartner.com/en/documents/...",
-      "growth_rate": "15% CAGR 2024-2028"
+      "calculation": "100M knowledge workers × $120/year average spend",
+      "source": "Bottom-up: ILO Global Employment Report (100M knowledge workers, free source) × $10/month typical PM tool pricing",
+      "methodology": "bottom_up"
     },
     "SAM": {
-      "value": 680000000,
+      "value": 1200000000,
       "currency": "USD",
-      "description": "Cloud PM for SMBs",
-      "calculation": "TAM ($6.8B) × 10% (SMB segment)",
-      "assumptions": ["SMBs represent ~10% of PM software spend"]
+      "description": "Cloud PM for creative agencies",
+      "calculation": "TAM ($12B) × 10% (creative agency segment)",
+      "assumptions": ["Creative agencies represent ~10% of PM software users"]
     },
     "SOM": {
-      "value": 13600000,
+      "value": 24000000,
       "currency": "USD",
       "description": "Year 1 capture",
-      "calculation": "SAM ($680M) × 2% (market share)",
-      "assumptions": ["2% market share achievable in Year 1"]
+      "calculation": "SAM ($1.2B) × 2% (market share)",
+      "assumptions": ["2% market share achievable in Year 1", "Based on 200 customers @ $10k/year"]
     }
   }
 }
@@ -219,9 +225,9 @@ If this gate fails:
 
 ```
 ✅ Gate Passed: Market Size Has Source
-- TAM: $6.8B with credible source (Gartner 2024)
-- SAM: $680M with documented calculation
-- SOM: $13.6M with realistic assumptions (2% market share)
+- TAM: $12B with bottom-up calculation (100M knowledge workers × $120/year)
+- SAM: $1.2B with documented calculation
+- SOM: $24M with realistic assumptions (2% market share)
 - All values logical (SOM < SAM < TAM)
 - Ready for next task
 ```

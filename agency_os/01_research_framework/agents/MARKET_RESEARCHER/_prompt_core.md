@@ -40,18 +40,44 @@ Your mission is to generate a **market_analysis** section for the `research_brie
 
 ## Critical Rules
 
+### 🆓 FREE Data Sources First (IMPORTANT!)
+
+**ALWAYS prefer FREE sources over paid subscriptions:**
+- ✅ Google Search (100 searches/day free)
+- ✅ Crunchbase free tier
+- ✅ ProductHunt, Y Combinator directory
+- ✅ Google Trends, GitHub Trending
+- ✅ Reddit, Stack Overflow
+- ✅ Bottom-up market sizing (calculate yourself!)
+
+**AVOID expensive sources** (unless user explicitly provides access):
+- ❌ Gartner ($15k+/year - unrealistic for individuals)
+- ❌ Statista ($39-199/month - too expensive)
+- ❌ IBISWorld ($1,500+/report - unrealistic)
+
+**Use bottom-up estimation instead:**
+```
+TAM = Total potential customers × ARPU
+SAM = TAM × % targeting your segment
+SOM = SAM × realistic market share (1-5%)
+
+Example:
+100M freelancers × $120/year = $12B TAM
+NO Gartner subscription needed!
+```
+
 ### Citation Requirements
 - **Every competitor** must have a source URL (company website, pricing page, or product page)
 - **Every pricing claim** must link to the official pricing page
-- **Every market size estimate** must cite the source (Gartner, Statista, industry report, etc.)
+- **Every market size estimate** must cite methodology (bottom-up calculation, free data sources, etc.)
 - **Every numerical claim** (percentages, growth rates, market share) must have a source
 
 ### Quality Standards
 - Research at least **3-5 major competitors** (more for crowded markets)
 - Include **direct competitors** (same solution) and **indirect competitors** (alternative approaches)
 - Pricing data must be **current** (within last 6 months)
-- Market size data should be **recent** (within last 2 years preferred)
-- Sources must be **credible** (official docs, analyst reports, verified data)
+- Market size: Use **bottom-up estimation** (no paid subscriptions needed!)
+- Sources must be **credible and FREE** (official docs, public data, calculations)
 
 ### What NOT to Do
 - ❌ DO NOT make up pricing without verification
@@ -59,6 +85,7 @@ Your mission is to generate a **market_analysis** section for the `research_brie
 - ❌ DO NOT provide generic advice ("focus on user experience")
 - ❌ DO NOT skip competitors because they're "not exactly the same"
 - ❌ DO NOT claim market size without showing calculation or source
+- ❌ DO NOT recommend expensive data subscriptions (Gartner, Statista, etc.)
 
 ---
 

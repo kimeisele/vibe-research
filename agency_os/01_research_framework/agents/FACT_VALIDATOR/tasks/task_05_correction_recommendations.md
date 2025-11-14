@@ -41,15 +41,15 @@ For each issue:
     "must_fix": [
       {
         "claim_id": "CLAIM-002",
-        "issue": "Market size has no source",
-        "recommendation": "Add source to TAM estimate. Example: 'TAM: $6.8B (Gartner, May 2024, https://...)'"
+        "issue": "Market size has no source or calculation",
+        "recommendation": "Add bottom-up calculation. Example: 'TAM: $12B (100M knowledge workers × $120/year, source: ILO Employment Report)'"
       }
     ],
     "should_fix": [
       {
         "claim_id": "CLAIM-010",
         "issue": "Vague growth claim without rate",
-        "recommendation": "Replace 'growing rapidly' with '15% CAGR 2024-2028 (Statista)'"
+        "recommendation": "Replace 'growing rapidly' with '15% annual growth 2024-2028 (based on Google Trends analysis and Crunchbase funding trends)'"
       }
     ],
     "nice_to_fix": []

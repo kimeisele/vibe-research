@@ -48,7 +48,7 @@ From `RESEARCH_red_flag_taxonomy.yaml`:
       "issue": "No timeframe, no growth rate, no source",
       "red_flag_type": "context-collapse",
       "severity": "high",
-      "recommendation": "Specify: '15% CAGR 2024-2028 (Gartner)'"
+      "recommendation": "Specify: '15% annual growth 2024-2028 (based on Google Trends analysis and Crunchbase funding data)'"
     },
     {
       "claim": "Stripe has 99.99% uptime",

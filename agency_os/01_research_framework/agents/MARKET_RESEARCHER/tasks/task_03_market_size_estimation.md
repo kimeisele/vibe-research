@@ -19,14 +19,29 @@ Based on user vision and competitors, identify the specific market:
 - Industry category (e.g., "Project Management Software")
 - Market segment (e.g., "Cloud-based PM for SMBs")
 
-### Step 2: Research TAM (Total Addressable Market)
-Search for market research on:
-- Industry analyst reports (Gartner, Forrester, IDC)
-- Market research databases (Statista, IBISWorld)
-- Industry associations
-- Government statistics
+### Step 2: Calculate TAM (Total Addressable Market)
 
-**Required:** Find at least one credible source with a market size number
+**RECOMMENDED: Use bottom-up calculation (FREE!)**
+```
+TAM = Total potential customers × Average revenue per customer (ARPU)
+```
+
+**FREE data sources to use:**
+1. **Google Search** (100 searches/day free)
+   - Search: "number of [target customers] worldwide"
+   - Example: "number of freelancers worldwide" → 100M
+2. **Crunchbase free tier** - Similar companies, funding data
+3. **Y Combinator directory** - Startup market segments
+4. **ProductHunt** - Emerging markets, product categories
+5. **Government statistics** - Industry data (free)
+6. **Reddit/Stack Overflow** - Community size, adoption trends
+
+**AVOID expensive sources** (unless user explicitly has access):
+- ❌ Gartner ($15,000-30,000/year) - unrealistic for individuals
+- ❌ Statista ($39-199/month) - too expensive for most
+- ❌ IBISWorld ($1,500+/report) - not cost-effective
+
+**Required:** Show your calculation method OR cite a credible free source
 
 ### Step 3: Calculate SAM (Serviceable Addressable Market)
 From TAM, narrow down to your specific segment:
@@ -56,26 +71,28 @@ Realistic market share you could capture in Year 1-3:
 {
   "market_size": {
     "TAM": {
-      "value": 6800000000,
+      "value": 12000000000,
       "currency": "USD",
-      "description": "Global project management software market",
+      "description": "Global project management software market (bottom-up calculation)",
       "timeframe": "2024",
-      "source": "https://www.gartner.com/...",
-      "growth_rate": "15% CAGR 2024-2028"
+      "calculation": "100M knowledge workers × $120/year average spend",
+      "source": "Bottom-up: ILO Global Employment Report (100M knowledge workers, free source) × $10/month typical PM tool pricing",
+      "methodology": "bottom_up",
+      "growth_rate": "Estimated 15% annual growth based on remote work trends"
     },
     "SAM": {
-      "value": 680000000,
+      "value": 1200000000,
       "currency": "USD",
       "description": "Cloud PM for SMBs (50-500 employees)",
-      "calculation": "TAM ($6.8B) × 10% (SMB segment)",
-      "assumptions": ["SMBs represent ~10% of PM software spend", "Cloud-first solutions only"]
+      "calculation": "TAM ($12B) × 10% (SMB segment targeting creative agencies)",
+      "assumptions": ["SMBs represent ~10% of PM software spend (source: Crunchbase free tier analysis)", "Creative agencies specifically: ~1M potential customers"]
     },
     "SOM": {
-      "value": 13600000,
+      "value": 24000000,
       "currency": "USD",
       "description": "Realistic Year 1 capture",
-      "calculation": "SAM ($680M) × 2% (market share)",
-      "assumptions": ["2% market share achievable in Year 1", "Based on 100-200 paying customers"]
+      "calculation": "SAM ($1.2B) × 2% (market share)",
+      "assumptions": ["2% market share achievable in Year 1", "Based on acquiring 200 paying customers @ $10k/year each"]
     }
   },
   "market_trends": {

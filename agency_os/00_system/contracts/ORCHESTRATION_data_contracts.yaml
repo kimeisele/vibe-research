@@ -177,18 +177,25 @@ schemas:
          - { name: "scope_negotiated", type: "boolean" }
 
  - name: "research_brief.schema.json"
-   version: "1.0.0"
-   $id: "https://api.example.com/schemas/research_brief.v1.0.0.json"
+   version: "1.1.0"
+   $id: "https://api.example.com/schemas/research_brief.v1.1.0.json"
    description: "Output of RESEARCH phase. Optional input for LEAN_CANVAS_VALIDATOR."
    fields:
      - name: "version"
        type: "string"
        required: true
-       default: "1.0"
+       default: "1.1"
 
      - name: "project_id"
        type: "string(uuid)"
        required: true
+
+     - name: "project_type"
+       type: "string"
+       required: false
+       enum: ["commercial", "internal", "portfolio", "nonprofit", "enterprise"]
+       default: "commercial"
+       description: "Project context type - determines quality threshold strictness. Commercial=50 (strict), Internal=30 (lenient), Portfolio=35, Nonprofit=40, Enterprise=55"
 
      - name: "research_completed_at"
        type: "string(timestamp)"

@@ -1,0 +1,31 @@
+PROJECT 4: Bhagavad Gita API Service
+
+CATEGORY: Medium API/Backend
+COMPLEXITY: Medium
+ESTIMATED COST: $2-3
+
+USER REQUEST:
+RESTful API service providing Bhagavad Gita verses and translations.
+Features:
+- GET verse by chapter and number
+- Search verses by keyword
+- Multiple translations (Prabhupada, others)
+- Word-by-word Sanskrit breakdowns
+- Audio verse recitation URLs
+- Rate limiting and API key management
+- Comprehensive documentation
+
+TARGET: Developers building Gita apps/websites
+Licensing: Data is public domain, API usage is free with attribution
+
+TEST FOCUS:
+- Does MARKET_RESEARCHER find existing Gita APIs?
+- Does TECH_RESEARCHER evaluate data sources and licensing?
+- Does VIBE_ALIGNER identify rate limiting as critical?
+- CODE_GENERATOR: API design quality?
+
+SUCCESS CRITERIA:
+✅ Market research finds 2+ existing Gita APIs
+✅ Feature spec includes data source validation
+✅ Generated API follows REST best practices
+✅ Documentation is comprehensive

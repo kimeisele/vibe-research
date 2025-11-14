@@ -1,0 +1,30 @@
+PROJECT 3: Hare Krishna Japa Counter Web App
+
+CATEGORY: Simple Web App
+COMPLEXITY: Low-Medium
+ESTIMATED COST: $1-2
+
+USER REQUEST:
+A web application to help devotees track their japa (chanting) rounds.
+Features:
+- Counter for daily rounds (16 rounds minimum goal)
+- Track time per round
+- Monthly statistics and streaks
+- Reminders/notifications for chanting goals
+- Simple, distraction-free UI
+- Optional: Social features (see friends' progress)
+
+TARGET: Web-first (mobile responsive), free to use
+Tech preference: Modern web stack, fast loading
+
+TEST FOCUS:
+- Does MARKET_RESEARCHER identify similar apps (habit trackers, meditation timers)?
+- Does VIBE_ALIGNER scope-negotiate social features (complexity spike)?
+- Does CODE_GENERATOR produce clean, modern web code?
+- Quality of generated component tests?
+
+SUCCESS CRITERIA:
+✅ Scope negotiation flags social features as Phase 2
+✅ Tech stack is modern (React/Vue/Svelte + backend)
+✅ Generated code includes responsive design
+✅ Tests cover counter logic thoroughly

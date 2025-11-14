@@ -1,0 +1,29 @@
+PROJECT 1: Srila Prabhupada Quote of the Day
+
+CATEGORY: Simple CLI Tool
+COMPLEXITY: Low
+ESTIMATED COST: $1-2
+
+USER REQUEST:
+I want a simple command-line tool that shows a random quote from Srila Prabhupada's books each day.
+
+REQUIREMENTS:
+- Display a new quote every day at startup
+- Show the source (which book, chapter)
+- Allow filtering by book (e.g., only Bhagavad-Gita quotes)
+- Work offline once quotes are downloaded
+- Be written in Python
+
+TARGET USERS: Devotees who work on terminal/command line
+
+TEST FOCUS:
+- Can MARKET_RESEARCHER find similar tools (quote apps)?
+- Does VIBE_ALIGNER correctly identify scope (offline, CLI, simple)?
+- Does CODE_GENERATOR produce working Python CLI code?
+- Quality of generated tests?
+
+SUCCESS CRITERIA:
+✅ feature_spec.json includes offline capability
+✅ Generated code is runnable Python CLI
+✅ Tests cover main functionality
+✅ Documentation explains how to add new quotes

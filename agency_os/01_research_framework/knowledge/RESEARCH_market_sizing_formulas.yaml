@@ -1,0 +1,66 @@
+version: "1.0"
+last_updated: "2025-11-14"
+description: "Market sizing formulas and estimation heuristics for MARKET_RESEARCHER agent"
+
+formulas:
+  - name: "TAM_calculation"
+    full_name: "Total Addressable Market"
+    formula: "Total potential customers × Average revenue per customer"
+    example: "100M freelancers × $120/year = $12B TAM"
+    source: "https://www.svb.com/startup-insights/market-research/tam-sam-som"
+
+  - name: "SAM_calculation"
+    full_name: "Serviceable Addressable Market"
+    formula: "TAM × percentage in your segment"
+    example: "$12B TAM × 5% (designers only) = $600M SAM"
+    source: "https://www.svb.com/startup-insights/market-research/tam-sam-som"
+
+  - name: "SOM_calculation"
+    full_name: "Serviceable Obtainable Market"
+    formula: "SAM × realistic market share (1-5% for startups)"
+    example: "$600M SAM × 2% = $12M SOM (Year 1 target)"
+    source: "https://www.svb.com/startup-insights/market-research/tam-sam-som"
+
+estimation_heuristics:
+  - heuristic: "bottom_up"
+    description: "Start with your product's pricing and count potential customers"
+    best_for: "New markets, niche products"
+
+  - heuristic: "top_down"
+    description: "Start with industry reports (Gartner, Forrester) and narrow down"
+    best_for: "Established markets"
+
+  - heuristic: "value_theory"
+    description: "Calculate value created for customers, estimate capture %"
+    best_for: "B2B SaaS"
+
+data_sources:
+  - name: "Gartner Market Guides"
+    url: "https://www.gartner.com/en/research"
+    access: "Paid"
+    reliability: "High"
+    use_case: "Enterprise software market sizing"
+
+  - name: "Statista"
+    url: "https://www.statista.com"
+    access: "Freemium"
+    reliability: "Medium-High"
+    use_case: "General market statistics"
+
+  - name: "IBISWorld"
+    url: "https://www.ibisworld.com"
+    access: "Paid"
+    reliability: "High"
+    use_case: "Industry-specific market research"
+
+  - name: "Crunchbase"
+    url: "https://www.crunchbase.com"
+    access: "Freemium"
+    reliability: "Medium"
+    use_case: "Startup funding and valuation data"
+
+  - name: "CB Insights"
+    url: "https://www.cbinsights.com"
+    access: "Paid"
+    reliability: "High"
+    use_case: "Market trends and competitive intelligence"

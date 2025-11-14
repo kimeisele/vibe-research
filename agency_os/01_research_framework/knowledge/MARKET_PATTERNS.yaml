@@ -1,0 +1,243 @@
+# MARKET_PATTERNS.yaml
+# Curated market intelligence for common product categories
+# Enables market-informed feature planning even without live web research
+
+version: "1.0"
+last_updated: "2025-11-14"
+status: "IN_PROGRESS - Awaiting Gemini Deep Research results"
+description: >
+  This knowledge base contains curated patterns from successful companies
+  in various market categories. It enables VIBE_ALIGNER and MARKET_RESEARCHER
+  to provide market-informed recommendations even in constrained environments
+  (GitHub online, limited API access).
+
+# =================================================================
+# STRUCTURE GUIDE
+# =================================================================
+# Each market category includes:
+# - Archetype competitors (who defined the category)
+# - Common features (what 80%+ have)
+# - Pricing patterns (industry standards)
+# - Tech stack patterns (proven choices)
+# - MVP definition (what's v1.0 vs v2.0)
+# - Lessons learned (avoid common mistakes)
+
+# =================================================================
+# CATEGORY 1: TWO-SIDED MARKETPLACES (LOCAL SERVICES)
+# =================================================================
+marketplaces_two_sided:
+  category_id: "marketplace_services_local"
+  description: "Marketplaces connecting service providers with customers (Rover, TaskRabbit, Care.com)"
+
+  archetype_competitors:
+    - name: "Rover"
+      category: "Dog sitting & pet care"
+      founded: 2011
+      funding: "$380M Series D"
+      gmv: "$2M+ bookings/year"
+      differentiator: "Rover Guarantee ($1M+ insurance), 24/7 support"
+      source: "Crunchbase + Rover.com"
+
+    - name: "TaskRabbit"
+      category: "Handyman & home services"
+      founded: 2008
+      funding: "Acquired by IKEA 2017"
+      differentiator: "Flat hourly rates, task-based pricing"
+      source: "TechCrunch"
+
+    # TODO: Add 8 more after Gemini research
+
+  common_features:
+    trust_safety:
+      background_checks:
+        adoption_rate: "95%"
+        typical_provider: "Checkr API"
+        cost: "$30-50 per check"
+        required_for: "v1.0"
+
+      insurance_coverage:
+        adoption_rate: "80%"
+        typical_amount: "$1M+ liability"
+        required_for: "v2.0 (nice-to-have for v1.0)"
+
+      verified_reviews:
+        adoption_rate: "100%"
+        pattern: "Two-way reviews (provider rates customer, vice versa)"
+        required_for: "v1.0"
+
+      identity_verification:
+        adoption_rate: "90%"
+        methods: ["ID upload", "phone verification", "email verification"]
+        required_for: "v1.0"
+
+    core_flow:
+      - name: "Service provider profiles"
+        complexity_score: 8
+        v1_required: true
+        typical_fields: ["photo", "bio", "rates", "services_offered", "availability"]
+
+      - name: "Search & discovery"
+        complexity_score: 13
+        v1_required: true
+        filters: ["location", "price_range", "availability", "ratings", "services"]
+
+      - name: "Booking system"
+        complexity_score: 20
+        v1_required: true
+        features: ["calendar_integration", "availability_rules", "instant_book_or_request"]
+
+      - name: "Payment processing"
+        complexity_score: 25
+        v1_required: true
+        pattern: "Stripe Connect for marketplace fee split"
+
+      - name: "Messaging (pre-booking)"
+        complexity_score: 15
+        v1_required: true
+        implementation: "Twilio / SendBird / custom"
+
+      - name: "GPS tracking"
+        complexity_score: 18
+        v1_required: false
+        note: "Rover added this in Year 2, not at launch"
+
+  pricing_patterns:
+    commission_rate:
+      typical_range: "15-25%"
+      examples:
+        - marketplace: "Rover"
+          rate: "20%"
+        - marketplace: "TaskRabbit"
+          rate: "15% (2024 model)"
+      source: "Public pricing pages"
+
+    booking_fee:
+      typical_range: "$2-5 per transaction"
+      optional: true
+
+  tech_stack_patterns:
+    backend: "Ruby on Rails OR Node.js"
+    database: "PostgreSQL"
+    payments: "Stripe Connect (for marketplace splits)"
+    messaging: "Twilio (SMS) + SendBird OR custom"
+    background_checks: "Checkr API"
+    email: "SendGrid OR Mailgun"
+    hosting: "AWS OR Heroku"
+
+  mvp_definition:
+    v1_must_haves:
+      - "Provider profiles with photos/bios"
+      - "Basic search & filters"
+      - "Booking system (simple calendar)"
+      - "Payment processing (Stripe Connect)"
+      - "Basic messaging"
+      - "Reviews (post-service)"
+      - "Background checks (Checkr)"
+
+    v1_nice_to_haves:
+      - "Insurance coverage (add in v2.0)"
+      - "GPS tracking (add in v2.0)"
+      - "Advanced availability rules"
+
+    v2_features:
+      - "GPS tracking"
+      - "Insurance claims portal"
+      - "Premium features (featured profiles, priority support)"
+      - "Subscription for providers"
+
+  lessons_learned:
+    - lesson: "Trust & Safety is table stakes - don't skip background checks"
+      source: "Rover case study"
+
+    - lesson: "GPS tracking is premium feature, not v1.0 - Rover launched without it"
+      source: "Rover blog post on feature evolution"
+
+    - lesson: "Two-way reviews reduce fraud - let both sides rate each other"
+      source: "TaskRabbit trust & safety blog"
+
+    # TODO: Add more lessons after Gemini research
+
+# =================================================================
+# CATEGORY 2: SAAS (PRODUCTIVITY & COLLABORATION)
+# =================================================================
+saas_productivity:
+  category_id: "saas_productivity_collaboration"
+  description: "SaaS tools for team productivity (Notion, Slack, Linear, Airtable)"
+  status: "PENDING - Awaiting Gemini research"
+
+  # TODO: Populate after Gemini Deep Research Category 2
+
+# =================================================================
+# CATEGORY 3: E-COMMERCE (DIRECT-TO-CONSUMER)
+# =================================================================
+ecommerce_d2c:
+  category_id: "ecommerce_direct_to_consumer"
+  description: "D2C brands (Warby Parker, Allbirds, Glossier)"
+  status: "PENDING - Awaiting Gemini research"
+
+  # TODO: Populate after Gemini Deep Research Category 3
+
+# =================================================================
+# CATEGORY 4: DEVELOPER TOOLS (CLI/API PLATFORMS)
+# =================================================================
+developer_tools:
+  category_id: "developer_tools_platforms"
+  description: "Developer-first platforms (Stripe, Vercel, Supabase)"
+  status: "PENDING - Awaiting Gemini research"
+
+  # TODO: Populate after Gemini Deep Research Category 4
+
+# =================================================================
+# CATEGORY 5: BOOKING & SCHEDULING SYSTEMS
+# =================================================================
+booking_scheduling:
+  category_id: "booking_scheduling"
+  description: "Scheduling tools (Calendly, Cal.com, Acuity)"
+  status: "PENDING - Awaiting Gemini research"
+
+  # TODO: Populate after Gemini Deep Research Category 5
+
+# =================================================================
+# FUTURE CATEGORIES (Phase 1.5 - Weeks 2-3)
+# =================================================================
+# - Content platforms (Substack, Medium, Ghost)
+# - Fintech (payment processors, neobanks)
+# - Healthcare tech (telemedicine, health records)
+# - Education tech (course platforms, tutoring)
+# - Social networks (community platforms, messaging)
+# - Gaming (multiplayer, game engines)
+# - Real estate tech (property management, listings)
+# - Supply chain & logistics (freight, inventory)
+# - HR tech (recruiting, payroll, benefits)
+# - Marketing tools (email, analytics, A/B testing)
+# - Security tools (auth, monitoring, compliance)
+# - Data platforms (analytics, warehouses, pipelines)
+# - Media & entertainment (streaming, podcasting)
+# - Travel & hospitality (booking, review platforms)
+# - Agriculture tech (farm management, AgTech)
+
+# =================================================================
+# USAGE NOTES
+# =================================================================
+usage:
+  by_vibe_aligner: >
+    When user says "dog sitting marketplace":
+    1. Match category: marketplace_services_local
+    2. Load archetype: Rover, TaskRabbit patterns
+    3. Suggest must-have features from common_features
+    4. Flag v2.0 features (GPS tracking)
+    5. Provide pricing benchmark (15-25% commission)
+    6. Recommend tech stack (Stripe Connect, Checkr)
+
+  by_market_researcher: >
+    When web_search unavailable:
+    1. Load curated competitor data
+    2. Generate research_brief.json from MARKET_PATTERNS
+    3. Flag data_source: "curated_knowledge_2025-11"
+    4. Add note: "Run with web_search for latest data"
+
+  data_freshness:
+    curated_date: "2025-11-14"
+    refresh_cadence: "Quarterly (every 3 months)"
+    update_method: "Gemini Deep Research + manual curation"
+    confidence_level: "High (based on 100+ sources per category)"

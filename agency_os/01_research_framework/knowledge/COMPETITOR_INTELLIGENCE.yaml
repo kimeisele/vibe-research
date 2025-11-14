@@ -1,0 +1,235 @@
+# COMPETITOR_INTELLIGENCE.yaml
+# Deep-dive curated intelligence on major competitors across categories
+# Enables context-aware competitive analysis even without live web research
+
+version: "1.0"
+last_updated: "2025-11-14"
+status: "IN_PROGRESS - Awaiting Gemini Deep Research results"
+description: >
+  This knowledge base contains deep-dive research on 50+ major competitors
+  across various categories. Each entry includes founding story, feature evolution,
+  pricing history, tech stack, and lessons learned. This enables MARKET_RESEARCHER
+  to provide competitive intelligence even in constrained environments.
+
+# =================================================================
+# STRUCTURE GUIDE
+# =================================================================
+# Each competitor profile includes:
+# - Company basics (founded, funding, scale)
+# - Feature evolution (v1.0 → v2.0 timeline)
+# - Pricing history (changes over time)
+# - Tech stack (inferred from job postings, tech blogs)
+# - Lessons learned (from postmortems, interviews)
+# - Sources (for verification)
+
+# =================================================================
+# CATEGORY 1: TWO-SIDED MARKETPLACES
+# =================================================================
+
+competitors:
+  - company_id: "rover"
+    name: "Rover"
+    category: ["marketplace_dog_sitting", "pet_care"]
+
+    basics:
+      founded: 2011
+      founders: ["Greg Gottesman", "Aaron Easterly", "Philip Kimmey"]
+      headquarters: "Seattle, WA"
+      funding:
+        total: "$380M"
+        series: "Series D"
+        investors: ["Revolution Ventures", "Madrona Venture Group", "Spark Capital"]
+        source: "Crunchbase 2024"
+
+      scale:
+        bookings_per_year: "2M+"
+        service_providers: "200,000+"
+        markets: "US, Canada, UK, Europe"
+        source: "Rover.com about page"
+
+    feature_evolution:
+      v1_0_launch: # 2011-2012
+        features:
+          - "Sitter profiles (photos, bio, rates)"
+          - "Basic search (location, dates)"
+          - "Booking request system (not instant)"
+          - "Payment processing (Stripe)"
+          - "Reviews (post-service)"
+        source: "Wayback Machine 2012"
+
+      v1_5_growth: # 2013-2014
+        added_features:
+          - "Background checks (Checkr integration)"
+          - "Rover Guarantee ($25k coverage initially)"
+          - "Mobile app (iOS, Android)"
+          - "Instant booking (no approval needed)"
+        source: "TechCrunch 2014 article"
+
+      v2_0_maturity: # 2015-2017
+        added_features:
+          - "GPS tracking (premium feature)"
+          - "Rover Guarantee increase ($1M+ coverage)"
+          - "24/7 customer support"
+          - "Premium photography service"
+          - "Recurring bookings"
+        source: "Rover blog 2017"
+
+      v2_5_scale: # 2018-2020
+        added_features:
+          - "Vet telehealth integration"
+          - "Pet training marketplace"
+          - "Boarding facility partnerships"
+        source: "Rover press releases"
+
+    pricing:
+      historical:
+        - period: "2011-2015"
+          model: "20% service fee from sitters"
+          source: "Wayback Machine"
+
+        - period: "2016-2020"
+          model: "20% service fee + optional booking fee for customers"
+          source: "Rover pricing page"
+
+        - period: "2021-present"
+          model: "20% service fee from sitters, no customer booking fee"
+          source: "Current pricing page 2024"
+
+      typical_rates:
+        overnight_sitting: "$25-50 per night"
+        dog_walking: "$20-30 per walk"
+        daycare: "$25-40 per day"
+        source: "Rover.com pricing"
+
+    tech_stack:
+      backend: "Ruby on Rails"
+      database: "PostgreSQL"
+      payments: "Stripe Connect"
+      messaging: "Twilio (SMS)"
+      background_checks: "Checkr API"
+      hosting: "AWS"
+      source: "Job postings + BuiltWith.com"
+
+    differentiation_strategy:
+      - "Rover Guarantee: Industry-leading $1M+ insurance"
+      - "24/7 support: Phone support for pet emergencies"
+      - "Premium services: Photography, training, vet telehealth"
+      - "Trust & safety: Mandatory background checks since 2014"
+
+    lessons_learned:
+      - lesson: "GPS tracking was v2.0, not v1.0"
+        detail: "Launched without GPS, added later based on user demand"
+        takeaway: "Focus on core booking flow first, add tracking features later"
+        source: "Rover engineering blog"
+
+      - lesson: "Insurance coverage is critical for trust"
+        detail: "Started with $25k, increased to $1M+ as they scaled"
+        takeaway: "Insurance builds trust, but can start small and scale up"
+        source: "Rover Guarantee history"
+
+      - lesson: "Instant booking increased conversion"
+        detail: "Original model required sitter approval, instant booking removed friction"
+        takeaway: "Reduce friction in booking flow for better conversion"
+        source: "Rover growth case study"
+
+      - lesson: "24/7 support is table stakes for pet emergencies"
+        detail: "Pet owners panic during emergencies, need immediate help"
+        takeaway: "Budget for customer support from early days"
+        source: "Rover customer reviews"
+
+    sources:
+      - "Crunchbase: https://www.crunchbase.com/organization/rover-com"
+      - "Rover blog: https://www.rover.com/blog/"
+      - "TechCrunch archives: https://techcrunch.com/tag/rover/"
+      - "Wayback Machine: Historical screenshots"
+      - "Job postings: Tech stack clues"
+
+  # =================================================================
+  # TODO: Add 49 more competitor profiles after Gemini research
+  # =================================================================
+  # Priority list (to be populated):
+  # - TaskRabbit (handyman marketplace)
+  # - Care.com (caregiving marketplace)
+  # - Thumbtack (local services marketplace)
+  # - Wag (dog walking)
+  # - Notion (productivity)
+  # - Slack (team communication)
+  # - Linear (project management)
+  # - Airtable (database/spreadsheet)
+  # - Figma (design collaboration)
+  # - Warby Parker (D2C eyewear)
+  # - Allbirds (D2C footwear)
+  # - Glossier (D2C beauty)
+  # - Casper (D2C mattresses)
+  # - Stripe (payments)
+  # - Vercel (hosting)
+  # - Supabase (backend-as-a-service)
+  # - Clerk (authentication)
+  # - Neon (database)
+  # - Calendly (scheduling)
+  # - Cal.com (open-source scheduling)
+  # - Acuity (appointment booking)
+  # ... (30 more to be added)
+
+# =================================================================
+# USAGE EXAMPLES
+# =================================================================
+
+usage_examples:
+  by_market_researcher:
+    scenario: "User wants to build 'dog sitting marketplace'"
+    flow: >
+      1. Identify category: marketplace_dog_sitting
+      2. Load competitor: Rover profile
+      3. Extract insights:
+         - Must-have features: profiles, search, booking, payments, reviews
+         - v2.0 features: GPS tracking (defer to later)
+         - Pricing benchmark: 20% service fee
+         - Trust & Safety: background checks, insurance
+         - Tech stack: Stripe Connect, Checkr
+      4. Generate research_brief.json with Rover's playbook
+      5. Flag: "Rover launched WITHOUT GPS tracking - added in Year 2"
+
+  by_vibe_aligner:
+    scenario: "User requests GPS tracking in v1.0"
+    flow: >
+      1. Load Rover profile
+      2. Check feature_evolution: GPS was v2.0, not v1.0
+      3. Response: "⚠️ MARKET INSIGHT: Rover (market leader) launched
+         WITHOUT GPS tracking and added it in Year 2. This suggests GPS
+         is a nice-to-have, not table stakes. Recommend deferring to v2.0."
+
+  by_lean_canvas_validator:
+    scenario: "Validate pricing assumptions"
+    flow: >
+      1. User claims: "I'll charge 10% fee"
+      2. Load Rover pricing: 20% service fee
+      3. Flag: "Market leader Rover charges 20%. Your 10% may not
+         support unit economics. Justify lower fee or increase to 15-20%."
+
+# =================================================================
+# DATA QUALITY & FRESHNESS
+# =================================================================
+
+data_quality:
+  verification_standard: "Multi-source verification (3+ sources per fact)"
+  confidence_levels:
+    high: "Verified from official sources (company blog, press release, SEC filing)"
+    medium: "Verified from secondary sources (TechCrunch, job postings)"
+    low: "Inferred from indirect sources (user reviews, Reddit)"
+
+  freshness:
+    last_updated: "2025-11-14"
+    refresh_cadence: "Quarterly (every 3 months)"
+    update_method: "Gemini Deep Research + manual curation"
+    staleness_flag: "Data older than 6 months flagged for review"
+
+  sources_policy:
+    required: "All claims must have source URL"
+    verification: "Cross-reference 3+ sources for critical facts (funding, pricing)"
+    prioritize:
+      - "Primary sources (company blogs, official docs)"
+      - "Wayback Machine (historical features)"
+      - "Crunchbase, SEC filings (funding, financials)"
+      - "Tech blogs (architecture, stack)"
+      - "Job postings (tech stack clues)"

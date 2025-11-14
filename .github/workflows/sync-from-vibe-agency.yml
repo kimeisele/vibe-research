@@ -1,0 +1,101 @@
+name: Sync from vibe-agency
+
+# This workflow syncs critical files from vibe-agency to vibe-research
+# Trigger: Manual dispatch or webhook from vibe-agency
+
+on:
+  # Manual trigger for testing
+  workflow_dispatch:
+    inputs:
+      source_branch:
+        description: 'Branch to sync from vibe-agency'
+        required: false
+        default: 'main'
+
+  # Webhook trigger from vibe-agency (requires setup)
+  repository_dispatch:
+    types: [sync-to-research]
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout vibe-research
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: ${{ github.ref }}
+
+      - name: Clone vibe-agency
+        run: |
+          cd ..
+          git clone https://github.com/kimeisele/vibe-agency.git
+          cd vibe-agency
+          git checkout ${{ github.event.inputs.source_branch || 'main' }}
+
+      - name: Sync agency_os directory
+        run: |
+          # Remove old agency_os
+          rm -rf agency_os
+
+          # Copy new agency_os
+          cp -r ../vibe-agency/agency_os .
+
+          echo "✅ Synced agency_os/"
+
+      - name: Sync Python runtime files
+        run: |
+          # Create scripts directory if it doesn't exist
+          mkdir -p scripts
+
+          # Copy orchestrator and handlers if they exist
+          if [ -f ../vibe-agency/core_orchestrator.py ]; then
+            cp ../vibe-agency/core_orchestrator.py scripts/
+            echo "✅ Synced core_orchestrator.py"
+          fi
+
+          if [ -d ../vibe-agency/handlers ]; then
+            cp -r ../vibe-agency/handlers scripts/
+            echo "✅ Synced handlers/"
+          fi
+
+          # Copy any other Python modules
+          if [ -f ../vibe-agency/requirements.txt ]; then
+            # Merge requirements, keeping both
+            cat ../vibe-agency/requirements.txt >> requirements.txt
+            sort -u requirements.txt -o requirements.txt
+            echo "✅ Merged requirements.txt"
+          fi
+
+      - name: Sync CLI if different
+        run: |
+          if [ -f ../vibe-agency/vibe-cli.py ]; then
+            cp ../vibe-agency/vibe-cli.py .
+            echo "✅ Synced vibe-cli.py"
+          fi
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "vibe-agency-sync-bot"
+          git config user.email "bot@vibe-agency.dev"
+
+          git add -A
+
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "🔄 Auto-sync from vibe-agency
+
+            Synced:
+            - agency_os/ (complete structure)
+            - Python runtime files
+            - CLI updates
+
+            Source: vibe-agency@${{ github.event.inputs.source_branch || 'main' }}
+            Triggered: ${{ github.event_name }}"
+
+            git push
+
+            echo "✅ Changes pushed to vibe-research"
+          fi

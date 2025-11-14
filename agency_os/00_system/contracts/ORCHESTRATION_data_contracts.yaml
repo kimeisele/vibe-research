@@ -176,202 +176,6 @@ schemas:
          - { name: "user_educated", type: "boolean" }
          - { name: "scope_negotiated", type: "boolean" }
 
- - name: "research_brief.schema.json"
-   version: "1.1.0"
-   $id: "https://api.example.com/schemas/research_brief.v1.1.0.json"
-   description: "Output of RESEARCH phase. Optional input for LEAN_CANVAS_VALIDATOR."
-   fields:
-     - name: "version"
-       type: "string"
-       required: true
-       default: "1.1"
-
-     - name: "project_id"
-       type: "string(uuid)"
-       required: true
-
-     - name: "project_type"
-       type: "string"
-       required: false
-       enum: ["commercial", "internal", "portfolio", "nonprofit", "enterprise"]
-       default: "commercial"
-       description: "Project context type - determines quality threshold strictness. Commercial=50 (strict), Internal=30 (lenient), Portfolio=35, Nonprofit=40, Enterprise=55"
-
-     - name: "research_completed_at"
-       type: "string(timestamp)"
-       required: true
-       format: "ISO 8601"
-
-     - name: "market_analysis"
-       type: "object"
-       required: true
-       properties:
-         - name: "competitors"
-           type: "array"
-           items:
-             type: "object"
-             properties:
-               - { name: "name", type: "string" }
-               - { name: "positioning", type: "string" }
-               - { name: "pricing", type: "string" }
-               - { name: "source", type: "string(uri)" }
-
-         - name: "pricing_insights"
-           type: "object"
-           properties:
-             - { name: "low", type: "number" }
-             - { name: "median", type: "number" }
-             - { name: "high", type: "number" }
-             - { name: "currency", type: "string" }
-             - { name: "unit", type: "string" }
-
-         - name: "market_size"
-           type: "string"
-           description: "TAM/SAM/SOM estimates with source"
-
-         - name: "positioning_opportunities"
-           type: "array"
-           items: "string"
-
-         - name: "risks"
-           type: "array"
-           items: "string"
-
-     - name: "tech_analysis"
-       type: "object"
-       required: true
-       properties:
-         - name: "recommended_apis"
-           type: "array"
-           items:
-             type: "object"
-             properties:
-               - { name: "name", type: "string" }
-               - { name: "purpose", type: "string" }
-               - { name: "pricing", type: "string" }
-               - { name: "rate_limits", type: "string" }
-               - { name: "reliability", type: "string" }
-               - { name: "source", type: "string(uri)" }
-
-         - name: "recommended_libraries"
-           type: "array"
-           items:
-             type: "object"
-             properties:
-               - { name: "name", type: "string" }
-               - { name: "purpose", type: "string" }
-               - { name: "license", type: "string" }
-               - { name: "maintenance_status", type: "string" }
-               - { name: "github_stars", type: "integer" }
-               - { name: "source", type: "string(uri)" }
-
-         - name: "technical_constraints"
-           type: "array"
-           items: "string"
-
-         - name: "feasibility_score"
-           type: "enum"
-           values: ["high", "medium", "low"]
-
-         - name: "flagged_features"
-           type: "array"
-           items:
-             type: "object"
-             properties:
-               - { name: "feature", type: "string" }
-               - { name: "fae_violation", type: "string" }
-               - { name: "recommendation", type: "string" }
-
-     - name: "fact_validation"
-       type: "object"
-       required: true
-       properties:
-         - name: "validated_claims"
-           type: "array"
-           items:
-             type: "object"
-             properties:
-               - { name: "claim", type: "string" }
-               - { name: "source", type: "string(uri)" }
-               - { name: "verification_status", type: "enum", values: ["VERIFIED", "UNVERIFIED"] }
-               - { name: "verified_at", type: "string(timestamp)" }
-
-         - name: "flagged_hallucinations"
-           type: "array"
-           items:
-             type: "object"
-             properties:
-               - { name: "claim", type: "string" }
-               - { name: "issue", type: "string" }
-               - { name: "red_flag_type", type: "enum", values: ["context-collapse", "plausible-falsehood", "platitude", "category-error"] }
-               - { name: "recommendation", type: "string" }
-
-         - name: "citation_index"
-           type: "array"
-           items:
-             type: "object"
-             properties:
-               - { name: "url", type: "string(uri)" }
-               - { name: "cited_in", type: "array", items: "string" }
-
-         - name: "quality_score"
-           type: "string"
-           format: "X/100"
-
-         - name: "issues_found"
-           type: "integer"
-
-         - name: "issues_critical"
-           type: "integer"
-
-     - name: "user_insights"
-       type: "object"
-       required: false
-       properties:
-         - name: "personas"
-           type: "array"
-           items:
-             type: "object"
-             properties:
-               - { name: "name", type: "string" }
-               - { name: "age_range", type: "string" }
-               - { name: "job_title", type: "string" }
-               - { name: "goals", type: "array", items: "string" }
-               - { name: "pain_points", type: "array", items: "string" }
-               - { name: "tools_used", type: "array", items: "string" }
-               - { name: "quote", type: "string" }
-
-         - name: "pain_points"
-           type: "array"
-           items: "string"
-
-         - name: "interview_script"
-           type: "object"
-           properties:
-             - { name: "intro", type: "string" }
-             - { name: "questions", type: "array", items: "string" }
-
-         - name: "user_journeys"
-           type: "array"
-           items:
-             type: "object"
-             properties:
-               - { name: "stage", type: "string" }
-               - { name: "touchpoints", type: "array", items: "string" }
-               - { name: "emotions", type: "string" }
-
-     - name: "handoff_to_lean_canvas"
-       type: "object"
-       required: true
-       properties:
-         - name: "status"
-           type: "enum"
-           values: ["READY", "NOT_READY"]
-
-         - name: "key_insights"
-           type: "array"
-           items: "string"
-
  - name: "lean_canvas_summary.schema.json"
    version: "1.0.0"
    $id: "https://api.example.com/schemas/lean_canvas_summary.v1.0.0.json"
@@ -565,5 +369,65 @@ schemas:
        type: "boolean"
        required: true
      - name: "correlated_trace_id"
-       type: "string" # Kritisch für Observability 
+       type: "string" # Kritisch für Observability
        required: false
+
+ - name: "audit_report.schema.json"
+   version: "1.0.0"
+   $id: "https://api.example.com/schemas/audit_report.v1.0.0.json"
+   description: "Output of AUDITOR quality gate checks. Contains audit findings and pass/fail status."
+   added_in: "GAD-002 Phase 4"
+   fields:
+     - name: "schema_version"
+       type: "string"
+       required: true
+       default: "1.0"
+     - name: "check_type"
+       type: "string"
+       required: true
+       description: "Type of audit check performed (e.g., prompt_security_scan, code_security_scan)"
+     - name: "severity"
+       type: "enum"
+       required: true
+       values: ["critical", "high", "medium", "info"]
+       description: "Severity level of this audit check"
+     - name: "blocking"
+       type: "boolean"
+       required: true
+       description: "Whether this audit can block state transitions"
+     - name: "status"
+       type: "enum"
+       required: true
+       values: ["PASS", "FAIL", "ERROR", "UNKNOWN"]
+       description: "Audit result status"
+     - name: "findings"
+       type: "array"
+       required: false
+       items:
+         type: "object"
+         properties:
+           - { name: "check_id", type: "string", description: "Check ID from AUDIT_CHECKLIST (e.g., SM-1.1)" }
+           - { name: "severity", type: "enum", values: ["critical", "high", "medium", "low", "info"] }
+           - { name: "category", type: "string", description: "Category (e.g., State Machine, Data Contracts)" }
+           - { name: "description", type: "string", description: "Description of the finding" }
+           - { name: "evidence", type: "string", description: "Evidence/location of the issue" }
+           - { name: "recommendation", type: "string", required: false }
+     - name: "target_files"
+       type: "array"
+       required: false
+       items: "string"
+       description: "Files that were audited"
+     - name: "timestamp"
+       type: "string"
+       required: true
+       description: "ISO 8601 timestamp of when audit was performed"
+     - name: "error"
+       type: "string"
+       required: false
+       description: "Error message if audit execution failed"
+     - name: "metadata"
+       type: "object"
+       required: false
+       properties:
+         - { name: "auditor_version", type: "string" }
+         - { name: "execution_time_ms", type: "integer" }

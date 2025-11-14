@@ -1,0 +1,29 @@
+PROJECT 2: Temple Companion Mobile App
+
+CATEGORY: Medium Mobile App
+COMPLEXITY: Medium
+ESTIMATED COST: $2-3
+
+USER REQUEST:
+A mobile app for devotees to help them during temple visits. Features:
+- Daily darshan times for major ISKCON temples worldwide
+- Prasadam menu of the day (if temple provides)
+- Festival calendar (Ekadashi, appearance days, etc.)
+- Kirtan schedule
+- Find nearby ISKCON temples (location-based)
+- Offline mode for downloaded temple data
+
+TARGET: iOS and Android users visiting ISKCON temples
+Should be free to use, data can be community-contributed
+
+TEST FOCUS:
+- Can MARKET_RESEARCHER find competitor apps (temple finders, Hindu calendars)?
+- Does VIBE_ALIGNER identify community-contribution complexity?
+- Does TECH_RESEARCHER recommend appropriate mobile framework?
+- FAE constraints: Does it flag offline data sync challenges?
+
+SUCCESS CRITERIA:
+✅ Market research identifies 3+ competitor apps
+✅ Tech stack recommendation (React Native vs Flutter vs Native)
+✅ Feature spec includes data sync architecture
+✅ Cost estimate is realistic for MVP

@@ -1,0 +1,32 @@
+PROJECT 5: Vaishnava Book Library Manager
+
+CATEGORY: Complex Desktop App
+COMPLEXITY: High
+ESTIMATED COST: $3-5
+
+USER REQUEST:
+Desktop application for managing a personal library of Vaishnava literature.
+Features:
+- Catalog physical books (title, author, ISBN, location in library)
+- Track borrowed books (who borrowed, when, reminders)
+- Reading lists and progress tracking
+- Notes and highlights per book
+- Search and filter (by author, topic, language)
+- Export library catalog
+- Barcode scanner integration (optional)
+- Multi-user support (family library)
+
+TARGET: Windows/Mac/Linux users with large Vaishnava book collections
+Preference: Electron or native app, local-first data storage
+
+TEST FOCUS:
+- Can MARKET_RESEARCHER find similar library management software?
+- Does VIBE_ALIGNER scope complex features (multi-user, barcode)?
+- Does TECH_RESEARCHER evaluate local-first vs cloud storage?
+- CODE_GENERATOR: Can it handle complex desktop app architecture?
+
+SUCCESS CRITERIA:
+✅ Scope negotiation defers barcode/multi-user to Phase 2
+✅ Tech stack decision is well-reasoned (Electron vs Tauri vs Native)
+✅ Feature spec includes data backup strategy
+✅ Generated code has proper desktop app structure

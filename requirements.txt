@@ -6,13 +6,17 @@
 # Security dependencies (optional)
 # Version: 1.0
 # Vibe Agency - Python Dependencies
+beautifulsoup4>=4.12.0  # HTML parsing for web_fetch tool
 black>=24.1.0  # Code formatter
 detect-secrets>=1.4.0  # Secret detection
 flake8>=7.0.0  # Linter
+google-api-python-client>=2.100.0  # Google Custom Search API
 isort>=5.13.0  # Import sorter
 pip-audit>=2.6.0  # Dependency vulnerability scanning
 pre-commit>=3.6.0  # Git pre-commit hook framework
 pytest-cov>=4.1.0  # Test coverage
 pytest>=7.4.0  # Testing framework
+python-dotenv>=1.0.0  # Load environment variables from .env files
 pyyaml>=6.0.1  # YAML parsing (use safe_load only for security)
+requests>=2.31.0  # HTTP client for API calls
 yamllint>=1.35.0  # YAML validation

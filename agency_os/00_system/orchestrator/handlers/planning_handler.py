@@ -67,6 +67,8 @@ class PlanningHandler:
                 self._execute_business_validation_state(manifest)
             elif substate['name'] == "FEATURE_SPECIFICATION":
                 self._execute_feature_specification_state(manifest)
+            elif substate['name'] == "ARCHITECTURE_DESIGN":
+                self._execute_architecture_design_state(manifest)
 
         # Apply quality gates before transitioning to CODING (GAD-002 Decision 2)
         from core_orchestrator import ProjectPhase
@@ -96,9 +98,23 @@ class PlanningHandler:
 
     def _should_execute_optional_state(self, state: Dict) -> bool:
         """
-        Ask user if they want to execute optional state.
+        Determine if optional state should be executed.
+
+        In auto mode (default): Skip all optional states
+        In interactive mode: Ask user for each optional state
+
+        Control via environment variable: VIBE_AUTO_MODE=true|false
         """
+        import os
+
+        auto_mode = os.getenv('VIBE_AUTO_MODE', 'true').lower() == 'true'
+
         if state['name'] == "RESEARCH":
+            if auto_mode:
+                logger.info("⏭️  Auto-skipping optional state: RESEARCH (set VIBE_AUTO_MODE=false for interactive)")
+                return False
+
+            # Interactive mode
             print("\n" + "="*60)
             print("OPTIONAL: Research Phase")
             print("="*60)
@@ -214,10 +230,11 @@ class PlanningHandler:
         """
         Execute BUSINESS_VALIDATION sub-state.
 
-        Flow:
+        Flow (FULL SEQUENCE - Production Ready):
         1. Load optional research_brief.json (if exists)
-        2. Execute LEAN_CANVAS_VALIDATOR (uses research if available)
-        3. Save lean_canvas_summary.json
+        2. Task 01: Canvas Interview (collect all 9 fields)
+        3. Task 02: Risk Analysis (identify riskiest assumptions)
+        4. Task 03: Handoff (generate lean_canvas_summary.json)
         """
         logger.info("💼 Starting BUSINESS_VALIDATION sub-state...")
 
@@ -227,13 +244,54 @@ class PlanningHandler:
             'research_brief.json'
         )
 
-        # Execute LEAN_CANVAS_VALIDATOR
-        lean_canvas = self.orchestrator.execute_agent(
+        # -------------------------------------------------------------------------
+        # TASK 01: Canvas Interview
+        # -------------------------------------------------------------------------
+        logger.info("📋 Step 1/3: Canvas Interview (collecting 9 Lean Canvas fields)...")
+
+        canvas_responses = self.orchestrator.execute_agent(
             agent_name="LEAN_CANVAS_VALIDATOR",
-            task_id="lean_canvas_creation",
+            task_id="01_canvas_interview",
             inputs={
                 'project_context': manifest.metadata,
-                'research_brief': research_brief  # May be None
+                'research_brief': research_brief,  # May be None
+                'user_initial_idea': manifest.metadata.get('description', 'New project')
+            },
+            manifest=manifest
+        )
+
+        logger.info("✓ Canvas interview complete")
+
+        # -------------------------------------------------------------------------
+        # TASK 02: Risk Analysis
+        # -------------------------------------------------------------------------
+        logger.info("🔍 Step 2/3: Risk Analysis (identifying riskiest assumptions)...")
+
+        risk_analysis = self.orchestrator.execute_agent(
+            agent_name="LEAN_CANVAS_VALIDATOR",
+            task_id="02_risk_analysis",
+            inputs={
+                'canvas_responses': canvas_responses,
+                'project_context': manifest.metadata
+            },
+            manifest=manifest
+        )
+
+        logger.info("✓ Risk analysis complete")
+
+        # -------------------------------------------------------------------------
+        # TASK 03: Handoff Artifact
+        # -------------------------------------------------------------------------
+        logger.info("📦 Step 3/3: Generating lean_canvas_summary.json artifact...")
+
+        lean_canvas = self.orchestrator.execute_agent(
+            agent_name="LEAN_CANVAS_VALIDATOR",
+            task_id="03_handoff",
+            inputs={
+                'canvas_responses': canvas_responses,
+                'riskiest_assumptions': risk_analysis.get('riskiest_assumptions', []),
+                'project_context': manifest.metadata,
+                'research_brief': research_brief
             },
             manifest=manifest
         )
@@ -257,7 +315,7 @@ class PlanningHandler:
 
         manifest.artifacts['lean_canvas_summary'] = lean_canvas
 
-        logger.info("✅ BUSINESS_VALIDATION complete → lean_canvas_summary.json")
+        logger.info("✅ BUSINESS_VALIDATION complete → lean_canvas_summary.json (full sequence: 01→02→03)")
 
     # -------------------------------------------------------------------------
     # FEATURE SPECIFICATION STATE
@@ -316,3 +374,88 @@ class PlanningHandler:
         manifest.artifacts['feature_spec'] = feature_spec
 
         logger.info("✅ FEATURE_SPECIFICATION complete → feature_spec.json")
+
+    # -------------------------------------------------------------------------
+    # ARCHITECTURE DESIGN STATE
+    # -------------------------------------------------------------------------
+
+    def _execute_architecture_design_state(self, manifest) -> None:
+        """
+        Execute ARCHITECTURE_DESIGN sub-state.
+
+        Flow:
+        1. Load feature_spec.json
+        2. Execute GENESIS_BLUEPRINT
+        3. Save architecture.json + code_gen_spec.json
+        """
+        logger.info("🏗️  Starting ARCHITECTURE_DESIGN sub-state...")
+
+        # Load feature spec (required)
+        feature_spec = self.orchestrator.load_artifact(
+            manifest.project_id,
+            'feature_spec.json'
+        )
+
+        if not feature_spec:
+            from core_orchestrator import ArtifactNotFoundError
+            raise ArtifactNotFoundError(
+                "feature_spec.json not found - FEATURE_SPECIFICATION must run first"
+            )
+
+        # Check if ready for architecture design
+        validation = feature_spec.get('validation', {})
+        if not validation.get('ready_for_genesis', False):
+            logger.warning(
+                "⚠️  Feature spec validation incomplete but continuing with architecture design. "
+                "GENESIS_BLUEPRINT may request additional clarifications."
+            )
+
+        # Execute GENESIS_BLUEPRINT
+        architecture_output = self.orchestrator.execute_agent(
+            agent_name="GENESIS_BLUEPRINT",
+            task_id="architecture_generation",
+            inputs={
+                'feature_spec': feature_spec,
+                'project_context': manifest.metadata
+            },
+            manifest=manifest
+        )
+
+        # GENESIS_BLUEPRINT should return both architecture.json and code_gen_spec.json
+        # (either as separate fields or as a combined output - we'll handle both)
+
+        if isinstance(architecture_output, dict) and 'architecture' in architecture_output and 'code_gen_spec' in architecture_output:
+            # Separate outputs
+            architecture = architecture_output['architecture']
+            code_gen_spec = architecture_output['code_gen_spec']
+        else:
+            # Combined output (GENESIS_BLUEPRINT returns everything in one object)
+            # Split it based on schema expectations
+            architecture = architecture_output
+            code_gen_spec = {
+                'modules': architecture_output.get('modules', []),
+                'dependencies': architecture_output.get('dependencies', []),
+                'build_config': architecture_output.get('build_config', {}),
+                'test_strategy': architecture_output.get('test_strategy', {})
+            }
+
+        # Save architecture.json
+        self.orchestrator.save_artifact(
+            manifest.project_id,
+            'architecture.json',
+            architecture,
+            validate=False  # TODO: Add schema validation in Phase 4
+        )
+
+        # Save code_gen_spec.json (CRITICAL for CODING phase!)
+        self.orchestrator.save_artifact(
+            manifest.project_id,
+            'code_gen_spec.json',
+            code_gen_spec,
+            validate=False  # TODO: Add schema validation in Phase 4
+        )
+
+        manifest.artifacts['architecture'] = architecture
+        manifest.artifacts['code_gen_spec'] = code_gen_spec
+
+        logger.info("✅ ARCHITECTURE_DESIGN complete → architecture.json + code_gen_spec.json")
